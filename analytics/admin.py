@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Analytics
+from .models import UserActivity
 
-@admin.register(Analytics)
-class AnalyticsAdmin(admin.ModelAdmin):
-    list_display = ['seller', 'total_sales', 'total_orders', 'date']
-    list_filter = ['date', 'seller']
-    search_fields = ['seller__username']
+@admin.register(UserActivity)
+class UserActivityAdmin(admin.ModelAdmin):
+    list_display = ['user', 'activity_type', 'product', 'timestamp']
+    list_filter = ['activity_type', 'timestamp']
+    search_fields = ['user__email', 'search_query']
 

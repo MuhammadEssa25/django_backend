@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from users.models import CustomUser
 from products.models import Product
+import uuid
 
 class Order(models.Model):
     STATUS_CHOICES = (
@@ -11,7 +12,7 @@ class Order(models.Model):
         ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     )
-    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
@@ -19,8 +20,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id} by {self.customer.username}"
-
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
@@ -37,14 +36,19 @@ class Payment(models.Model):
         ('paypal', 'PayPal'),
         ('bank_transfer', 'Bank Transfer'),
     )
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    PAYMENT_STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+    )
+    
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
-    transaction_id = models.CharField(max_length=100, unique=True)
-    status = models.CharField(max_length=20, default='pending')
+    transaction_id = models.CharField(max_length=100, unique=True, default=uuid.uuid4)
+    status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Payment for Order {self.order.id}"
-
