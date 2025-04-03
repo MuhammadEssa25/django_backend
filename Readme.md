@@ -16,12 +16,10 @@
 - [Troubleshooting](#troubleshooting)  
 - [License](#license)  
 
----
 
 ## Getting Started  
 This project is a **3D AI-based e-commerce store** built with Django and Django REST Framework. It includes user authentication, role-based access control, and interactive 3D product viewing.  
 
----
 
 ## Prerequisites  
 Ensure you have the following installed:  
@@ -119,27 +117,27 @@ The system supports role-based access control with different permissions:
 
 #### Admin Role
 
-Manage all products, orders, and users
+    Manage all products, orders, and users
 
-Access all analytics and reports
+    Access all analytics and reports
 
 #### Seller Role
 
-Create and manage own products
+    Create and manage own products
 
-View orders containing their products
+    View orders containing their products
 
-Access analytics for their products
+    Access analytics for their products
 
 #### Customer Role
 
-Browse products and view 3D models
+    Browse products and view 3D models
 
-Add products to cart
+    Add products to cart
 
-Place and track orders
+    Place and track orders
 
-Cannot access admin or seller features
+    Cannot access admin or seller features
 
 ### API Documentation
 Once the server is running, access the API docs at:
