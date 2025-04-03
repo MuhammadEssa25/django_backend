@@ -12,6 +12,7 @@ from carts.models import Cart
 from products.models import Product
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from drf_spectacular.types import OpenApiTypes
+from permissions import IsAdmin, IsSellerOrAdmin, IsOrderCustomer
 
 class OrderViewSet(mixins.ListModelMixin,
                    mixins.RetrieveModelMixin,
@@ -20,7 +21,7 @@ class OrderViewSet(mixins.ListModelMixin,
     Order API - only exposes list, retrieve, and specific actions
     """
     queryset = Order.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOrderCustomer]
 
     def get_serializer_class(self):
         if self.action == 'checkout':
@@ -151,7 +152,7 @@ class OrderViewSet(mixins.ListModelMixin,
         request=OrderStatusUpdateSerializer,
         description='Update the status of an order (for sellers and admins)'
     )
-    @action(detail=True, methods=['patch'])
+    @action(detail=True, methods=['patch'], permission_classes=[IsSellerOrAdmin])
     def update_status(self, request, pk=None):
         """Update order status (for sellers and admins)"""
         order = self.get_object()

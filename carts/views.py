@@ -7,6 +7,7 @@ from .serializers import CartSerializer, CartItemSerializer
 from products.models import Product
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 from drf_spectacular.types import OpenApiTypes
+from permissions import IsCartOwner
 import logging
 
 # Set up logger
@@ -17,10 +18,12 @@ class CartViewSet(viewsets.GenericViewSet):
     Cart API - only exposes specific actions, not the full ModelViewSet
     """
     serializer_class = CartSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsCartOwner]
     
     def get_queryset(self):
         """Users can only see their own cart"""
+        if self.request.user.is_staff or self.request.user.role == 'admin':
+            return Cart.objects.all()
         return Cart.objects.filter(customer=self.request.user)
     
     @action(detail=False, methods=['get'])
@@ -94,6 +97,8 @@ class CartViewSet(viewsets.GenericViewSet):
             
             # Check if item already exists in cart
             try:
+                cart_item = CartItem.objects.get(cart=cart, product=product)
+                # Update quantity 
                 cart_item = CartItem.objects.get(cart=cart, product=product)
                 # Update quantity
                 cart_item.quantity += quantity

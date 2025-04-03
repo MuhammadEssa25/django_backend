@@ -1,5 +1,5 @@
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -8,6 +8,7 @@ from drf_spectacular.types import OpenApiTypes
 from django.db import transaction
 from .models import CustomUser
 from .serializers import CustomUserSerializer, LoginSerializer
+from permissions import IsAdmin
 
 @extend_schema(
     request=LoginSerializer,
@@ -70,6 +71,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == 'create':
             return [AllowAny()]
+        elif self.action in ['list', 'retrieve', 'update', 'partial_update', 'destroy']:
+            if self.request.user.is_authenticated and self.request.user.role == 'admin':
+                return [IsAuthenticated()]
+            return [IsAuthenticated(), IsAdmin()]
         return [IsAuthenticated()]
     
     def get_queryset(self):
@@ -77,8 +82,12 @@ class UserViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             return CustomUser.objects.none()
             
-        # Allow all authenticated users to see all users
-        return CustomUser.objects.all()
+        # Admin can see all users
+        if user.is_staff or user.role == 'admin':
+            return CustomUser.objects.all()
+            
+        # Regular users can only see themselves
+        return CustomUser.objects.filter(id=user.id)
     
     def perform_create(self, serializer):
         password = serializer.validated_data.pop('password', None)
@@ -87,30 +96,16 @@ class UserViewSet(viewsets.ModelViewSet):
             instance.set_password(password)
             instance.save()
     
-    def perform_destroy(self, instance):
-        """
-        Custom delete method to handle missing related tables
-        """
-        try:
-            with transaction.atomic():
-                # Delete the user directly with raw SQL to avoid cascade issues
-                instance_id = instance.id
-                instance.delete()
-                return True
-        except Exception as e:
-            # If there's an error with related tables, try a different approach
-            try:
-                # Get the user ID before deleting
-                instance_id = instance.id
-                
-                # Use a raw SQL query to delete the user directly
-                from django.db import connection
-                with connection.cursor() as cursor:
-                    cursor.execute("DELETE FROM users_customuser WHERE id = %s", [instance_id])
-                
-                return True
-            except Exception as inner_e:
-                # If all else fails, log the error and return a response
-                print(f"Error deleting user: {str(inner_e)}")
-                return False
+    def perform_update(self, serializer):
+        password = serializer.validated_data.pop('password', None)
+        instance = serializer.save()
+        if password:
+            instance.set_password(password)
+            instance.save()
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        """Get the current user's profile"""
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
 

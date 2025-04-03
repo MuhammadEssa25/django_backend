@@ -11,6 +11,7 @@ from django.db import transaction, connection, ProgrammingError
 
 from .models import Product, ProductView, Review, ProductImage, Category
 from .serializers import ProductSerializer, ProductCreateUpdateSerializer, ReviewSerializer, ProductImageSerializer, CategorySerializer
+from permissions import IsSellerOrAdmin, IsProductSeller
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -23,7 +24,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            return [IsAuthenticated()]
+            return [IsSellerOrAdmin()]
         return super().get_permissions()
     
     @extend_schema(
@@ -125,7 +126,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsProductSeller]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
     
     def get_serializer_class(self):
@@ -134,9 +135,22 @@ class ProductViewSet(viewsets.ModelViewSet):
         return ProductSerializer
     
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            return [IsAuthenticated()]
+        if self.action in ['create']:
+            return [IsAuthenticated(), IsSellerOrAdmin()]
+        elif self.action in ['update', 'partial_update', 'destroy']:
+            return [IsAuthenticated(), IsProductSeller()]
         return super().get_permissions()
+    
+    def get_queryset(self):
+        user = self.request.user
+        # Admins and staff can see all products
+        if user.is_authenticated and (user.is_staff or user.role == 'admin'):
+            return Product.objects.all()
+        # Sellers can see their own products
+        elif user.is_authenticated and user.role == 'seller':
+            return Product.objects.filter(seller=user)
+        # Everyone else can see all products (for browsing)
+        return Product.objects.all()
     
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -328,7 +342,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         
         # Check if user is the seller
-        if instance.seller != request.user and not request.user.is_staff:
+        if instance.seller != request.user and not request.user.is_staff and request.user.role != 'admin':
             return Response(
                 {'error': 'Only the seller or admin can delete this product'},
                 status=status.HTTP_403_FORBIDDEN
@@ -403,14 +417,14 @@ class ProductViewSet(viewsets.ModelViewSet):
             ),
         ],
     )
-    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated], parser_classes=[MultiPartParser, FormParser])
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated, IsProductSeller], parser_classes=[MultiPartParser, FormParser])
     def upload_images(self, request, pk=None):
         product = self.get_object()
         
         # Check if user is the seller
-        if product.seller != request.user:
+        if product.seller != request.user and not request.user.is_staff and request.user.role != 'admin':
             return Response(
-                {'error': 'Only the seller can upload images for this product'},
+                {'error': 'Only the seller or admin can upload images for this product'},
                 status=status.HTTP_403_FORBIDDEN
             )
         
