@@ -166,5 +166,3 @@ Python not recognized	Ensure Python is added to your PATH
 Package not found	Make sure your virtual environment is activated
 Database errors	Delete db.sqlite3 and migrations folder (except __init__.py) and run migrations again
 Permission issues	Run Command Prompt as Administrator
-License
-This project is open-source and available under the MIT License.
