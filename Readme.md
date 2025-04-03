@@ -2,40 +2,38 @@
 
 This is a Django-based e-commerce store featuring AI-driven 3D models for product visualization. Follow this guide to set up and run the project.
 
-Table of Contents
+📌 Table of Contents
 
-Clone the Repository
+📂 Clone the Repository
 
-Set Up Python Environment
+⚙️ Set Up Python Environment
 
-Database Setup
+🗄️ Database Setup
 
-Create Admin User
+🔑 Create Admin User
 
-Create Test Users (Optional)
+👥 Create Test Users (Optional)
 
-Run the Development Server
+🚀 Run the Development Server
 
-Project Structure
+📁 Project Structure
 
-Authorization System
+🔐 Authorization System
 
-API Documentation
+📜 API Documentation
 
-Troubleshooting
+🐞 Troubleshooting
 
-License
+📜 License
 
-1. Clone the Repository
-
-Clone the project from GitHub and navigate to the directory:
+📂 Clone the Repository
 
 git clone https://github.com/MohammadAbdullah1214/3D-AI-based-Ecommerce-Store.git
 cd 3D-AI-based-Ecommerce-Store
 
-2. Set Up Python Environment
+⚙️ Set Up Python Environment
 
-Create and Activate Virtual Environment
+🔹 Create and Activate Virtual Environment
 
 For Windows:
 
@@ -47,7 +45,7 @@ For Mac/Linux:
 python -m venv venv
 source venv/bin/activate
 
-Install Dependencies
+🔹 Install Dependencies
 
 pip install -r requirements.txt
 
@@ -55,28 +53,26 @@ If requirements.txt is not available, install these packages manually:
 
 pip install django djangorestframework djangorestframework-simplejwt drf-spectacular pillow
 
-3. Database Setup
+🗄️ Database Setup
 
-Create and Apply Migrations
+🔹 Create and Apply Migrations
 
 python manage.py makemigrations
 python manage.py migrate
 
-4. Create Admin User
-
-Create a superuser account to access the Django admin panel:
+🔑 Create Admin User
 
 python manage.py createsuperuser
 
 Follow the prompts to enter a username, email, and password.
 
-5. Create Test Users (Optional)
+👥 Create Test Users (Optional)
 
-Open Django Shell
+🔹 Open Django Shell
 
 python manage.py shell
 
-Add Test Users
+🔹 Add Test Users
 
 from users.models import CustomUser
 
@@ -98,35 +94,29 @@ CustomUser.objects.create_user(
 
 exit()
 
-6. Run the Development Server
+🚀 Run the Development Server
 
 python manage.py runserver
 
-Access the site at http://127.0.0.1:8000/.
+Access the site at http://127.0.0.1:8000/
 
-7. Project Structure
+📁 Project Structure
 
-analytics/: Analytics and dashboard functionality
+3D-AI-based-Ecommerce-Store/
+│── analytics/     # Analytics and dashboard functionality
+│── carts/         # Shopping cart implementation
+│── core/          # Main project settings
+│── order_items/   # Order item models and views
+│── orders/        # Order processing and management
+│── payments/      # Payment processing
+│── products/      # Product catalog with 3D models
+│── users/         # User authentication and authorization
 
-carts/: Shopping cart implementation
+🔐 Authorization System
 
-core/: Main project settings
+The project implements a role-based access control system:
 
-order_items/: Order item models and views
-
-orders/: Order processing and management
-
-payments/: Payment processing
-
-products/: Product catalog with 3D models
-
-users/: User authentication and authorization
-
-8. Authorization System
-
-The project implements a comprehensive role-based access control system:
-
-Admin Role
+👑 Admin Role
 
 Full access to all features
 
@@ -134,7 +124,7 @@ Manage all products, orders, and users
 
 Access all analytics and reports
 
-Seller Role
+🏪 Seller Role
 
 Create and manage own products
 
@@ -142,7 +132,7 @@ View orders containing their products
 
 Access analytics for their products
 
-Customer Role
+🛍️ Customer Role
 
 Browse products and view 3D models
 
@@ -152,21 +142,23 @@ Place and track orders
 
 Cannot access admin or seller features
 
-9. API Documentation
+📜 API Documentation
 
-Access the API documentation at http://127.0.0.1:8000/api/docs/ when the server is running.
+📌 Access the API documentation at http://127.0.0.1:8000/api/docs/ when the server is running.
 
-10. Troubleshooting
+🐞 Troubleshooting
 
-Python not recognized: Ensure Python is added to your PATH.
+🔹 Common Issues & Fixes
 
-Package not found: Make sure your virtual environment is activated.
+Python not recognized? Ensure Python is added to your PATH.
 
-Database errors: Delete db.sqlite3 and migration files (except __init__.py), then run migrations again.
+Package not found? Make sure your virtual environment is activated.
 
-Permission issues: Run Command Prompt as Administrator.
+Database errors? Delete db.sqlite3 and migration files (except __init__.py), then run migrations again.
 
-11. License
+Permission issues? Run Command Prompt as Administrator.
 
-This project is open source and available under the MIT License.
+📜 License
+
+This project is open-source and available under the MIT License.
 
