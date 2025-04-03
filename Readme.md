@@ -1,50 +1,41 @@
-3D AI-Based E-Commerce Store
-Table of Contents
-Getting Started
+# 3D AI-Based E-Commerce Store  
 
-Prerequisites
+## Table of Contents  
+- [Getting Started](#getting-started)  
+- [Prerequisites](#prerequisites)  
+- [Project Setup](#project-setup)  
+  - [1. Clone the Repository](#1-clone-the-repository)  
+  - [2. Set Up Python Environment](#2-set-up-python-environment)  
+  - [3. Database Setup](#3-database-setup)  
+  - [4. Create Admin User](#4-create-admin-user)  
+  - [5. Create Test Users (Optional)](#5-create-test-users-optional)  
+  - [6. Run the Development Server](#6-run-the-development-server)  
+- [Project Structure](#project-structure)  
+- [Authorization System](#authorization-system)  
+- [API Documentation](#api-documentation)  
+- [Troubleshooting](#troubleshooting)  
+- [License](#license)  
 
-Project Setup
+---
 
-1. Clone the Repository
+## Getting Started  
+This project is a **3D AI-based e-commerce store** built with Django and Django REST Framework. It includes user authentication, role-based access control, and interactive 3D product viewing.  
 
-2. Set Up Python Environment
+---
 
-3. Database Setup
+## Prerequisites  
+Ensure you have the following installed:  
 
-4. Create Admin User
+- **Python** (Version 3.8 or later)  
+- **Git** (For cloning the repository)  
+- **Virtual Environment (venv)** (For dependency management)  
 
-5. Create Test Users (Optional)
+---
 
-6. Run the Development Server
+## Project Setup  
 
-Project Structure
-
-Authorization System
-
-API Documentation
-
-Troubleshooting
-
-License
-
-Getting Started
-This project is a 3D AI-based e-commerce store built with Django and Django REST Framework. It includes user authentication, role-based access control, and interactive 3D product viewing.
-
-Prerequisites
-Make sure you have the following installed:
-
-Python (Version 3.8 or later)
-
-Git (For cloning the repository)
-
-Virtual Environment (venv) (To manage dependencies)
-
-Project Setup
-1. Clone the Repository
-bash
-Copy
-Edit
+### 1. Clone the Repository  
+```bash
 git clone https://github.com/MohammadAbdullah1214/3D-AI-based-Ecommerce-Store.git  
 cd 3D-AI-based-Ecommerce-Store  
 2. Set Up Python Environment
