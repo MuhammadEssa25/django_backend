@@ -38,56 +38,35 @@ Ensure you have the following installed:
 ```bash
 git clone https://github.com/MohammadAbdullah1214/3D-AI-based-Ecommerce-Store.git  
 cd 3D-AI-based-Ecommerce-Store  
+
 2. Set Up Python Environment
 Create and activate a virtual environment:
 
-bash
-Copy
-Edit
 python -m venv venv  
 source venv/bin/activate  # For macOS/Linux  
 venv\Scripts\activate  # For Windows  
+
 Install dependencies from requirements.txt:
-
-bash
-Copy
-Edit
 pip install -r requirements.txt  
-If requirements.txt is not available, manually install the required packages:
 
-bash
-Copy
-Edit
+If requirements.txt is not available, manually install the required packages:
 pip install django djangorestframework djangorestframework-simplejwt drf-spectacular pillow  
+
 3. Database Setup
 Run the following commands to set up the database:
-
-bash
-Copy
-Edit
 python manage.py makemigrations  
 python manage.py migrate  
+
 4. Create Admin User
 Create a superuser account for admin access:
-
-bash
-Copy
-Edit
 python manage.py createsuperuser  
 Follow the prompts to set a username, email, and password.
 
 5. Create Test Users (Optional)
 You can create test users for different roles using the Django shell:
-
-bash
-Copy
-Edit
 python manage.py shell  
-Then, run the following script:
 
-python
-Copy
-Edit
+Then, run the following script:
 from users.models import CustomUser
 
 # Create a seller  
@@ -107,17 +86,12 @@ CustomUser.objects.create_user(
 )  
 
 exit()  
+
 6. Run the Development Server
-bash
-Copy
-Edit
 python manage.py runserver  
 Access the site at: http://127.0.0.1:8000/
 
 Project Structure
-bash
-Copy
-Edit
 3D-AI-based-Ecommerce-Store/  
 │── analytics/      # Analytics and dashboard functionality  
 │── carts/          # Shopping cart implementation  
@@ -129,6 +103,7 @@ Edit
 │── manage.py       # Django project manager  
 │── requirements.txt # Dependencies list  
 └── README.md       # Project documentation  
+
 Authorization System
 The system supports role-based access control with different permissions:
 
@@ -166,3 +141,5 @@ Python not recognized	Ensure Python is added to your PATH
 Package not found	Make sure your virtual environment is activated
 Database errors	Delete db.sqlite3 and migrations folder (except __init__.py) and run migrations again
 Permission issues	Run Command Prompt as Administrator
+License
+This project is open-source and available under the MIT License.
