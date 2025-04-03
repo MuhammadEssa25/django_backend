@@ -1,130 +1,153 @@
 3D AI-Based E-Commerce Store
+Table of Contents
+Getting Started
 
-This is a Django-based e-commerce store featuring AI-driven 3D models for product visualization. Follow this guide to set up and run the project.
+Prerequisites
 
-📌 Table of Contents
+Project Setup
 
-📂 Clone the Repository
+1. Clone the Repository
 
-⚙️ Set Up Python Environment
+2. Set Up Python Environment
 
-🗄️ Database Setup
+3. Database Setup
 
-🔑 Create Admin User
+4. Create Admin User
 
-👥 Create Test Users (Optional)
+5. Create Test Users (Optional)
 
-🚀 Run the Development Server
+6. Run the Development Server
 
-📁 Project Structure
+Project Structure
 
-🔐 Authorization System
+Authorization System
 
-📜 API Documentation
+API Documentation
 
-🐞 Troubleshooting
+Troubleshooting
 
-📜 License
+License
 
-📂 Clone the Repository
+Getting Started
+This project is a 3D AI-based e-commerce store built with Django and Django REST Framework. It includes user authentication, role-based access control, and interactive 3D product viewing.
 
-git clone https://github.com/MohammadAbdullah1214/3D-AI-based-Ecommerce-Store.git
-cd 3D-AI-based-Ecommerce-Store
+Prerequisites
+Make sure you have the following installed:
 
-⚙️ Set Up Python Environment
+Python (Version 3.8 or later)
 
-🔹 Create and Activate Virtual Environment
+Git (For cloning the repository)
 
-For Windows:
+Virtual Environment (venv) (To manage dependencies)
 
-python -m venv venv
-venv\Scripts\activate
+Project Setup
+1. Clone the Repository
+bash
+Copy
+Edit
+git clone https://github.com/MohammadAbdullah1214/3D-AI-based-Ecommerce-Store.git  
+cd 3D-AI-based-Ecommerce-Store  
+2. Set Up Python Environment
+Create and activate a virtual environment:
 
-For Mac/Linux:
+bash
+Copy
+Edit
+python -m venv venv  
+source venv/bin/activate  # For macOS/Linux  
+venv\Scripts\activate  # For Windows  
+Install dependencies from requirements.txt:
 
-python -m venv venv
-source venv/bin/activate
+bash
+Copy
+Edit
+pip install -r requirements.txt  
+If requirements.txt is not available, manually install the required packages:
 
-🔹 Install Dependencies
+bash
+Copy
+Edit
+pip install django djangorestframework djangorestframework-simplejwt drf-spectacular pillow  
+3. Database Setup
+Run the following commands to set up the database:
 
-pip install -r requirements.txt
+bash
+Copy
+Edit
+python manage.py makemigrations  
+python manage.py migrate  
+4. Create Admin User
+Create a superuser account for admin access:
 
-If requirements.txt is not available, install these packages manually:
+bash
+Copy
+Edit
+python manage.py createsuperuser  
+Follow the prompts to set a username, email, and password.
 
-pip install django djangorestframework djangorestframework-simplejwt drf-spectacular pillow
+5. Create Test Users (Optional)
+You can create test users for different roles using the Django shell:
 
-🗄️ Database Setup
+bash
+Copy
+Edit
+python manage.py shell  
+Then, run the following script:
 
-🔹 Create and Apply Migrations
-
-python manage.py makemigrations
-python manage.py migrate
-
-🔑 Create Admin User
-
-python manage.py createsuperuser
-
-Follow the prompts to enter a username, email, and password.
-
-👥 Create Test Users (Optional)
-
-🔹 Open Django Shell
-
-python manage.py shell
-
-🔹 Add Test Users
-
+python
+Copy
+Edit
 from users.models import CustomUser
 
-# Create a seller
-CustomUser.objects.create_user(
-    username='seller1',
-    email='seller1@example.com',
-    password='sellerpass123',
-    role='seller'
-)
+# Create a seller  
+CustomUser.objects.create_user(  
+    username='seller1',  
+    email='seller1@example.com',  
+    password='sellerpass123',  
+    role='seller'  
+)  
 
-# Create a customer
-CustomUser.objects.create_user(
-    username='customer1',
-    email='customer1@example.com',
-    password='customerpass123',
-    role='customer'
-)
+# Create a customer  
+CustomUser.objects.create_user(  
+    username='customer1',  
+    email='customer1@example.com',  
+    password='customerpass123',  
+    role='customer'  
+)  
 
-exit()
+exit()  
+6. Run the Development Server
+bash
+Copy
+Edit
+python manage.py runserver  
+Access the site at: http://127.0.0.1:8000/
 
-🚀 Run the Development Server
+Project Structure
+bash
+Copy
+Edit
+3D-AI-based-Ecommerce-Store/  
+│── analytics/      # Analytics and dashboard functionality  
+│── carts/          # Shopping cart implementation  
+│── core/           # Main project settings  
+│── orders/         # Order processing and management  
+│── products/       # Product catalog with 3D models  
+│── users/          # User authentication and authorization  
+│── db.sqlite3      # Database file (if using SQLite)  
+│── manage.py       # Django project manager  
+│── requirements.txt # Dependencies list  
+└── README.md       # Project documentation  
+Authorization System
+The system supports role-based access control with different permissions:
 
-python manage.py runserver
-
-Access the site at http://127.0.0.1:8000/
-
-📁 Project Structure
-
-3D-AI-based-Ecommerce-Store/
-│── analytics/     # Analytics and dashboard functionality
-│── carts/         # Shopping cart implementation
-│── core/          # Main project settings
-│── order_items/   # Order item models and views
-│── orders/        # Order processing and management
-│── payments/      # Payment processing
-│── products/      # Product catalog with 3D models
-│── users/         # User authentication and authorization
-
-🔐 Authorization System
-
-The project implements a role-based access control system:
-
-👑 Admin Role
-
-Full access to all features
+Admin Role
 
 Manage all products, orders, and users
 
 Access all analytics and reports
 
-🏪 Seller Role
+Seller Role
 
 Create and manage own products
 
@@ -132,7 +155,7 @@ View orders containing their products
 
 Access analytics for their products
 
-🛍️ Customer Role
+Customer Role
 
 Browse products and view 3D models
 
@@ -142,23 +165,15 @@ Place and track orders
 
 Cannot access admin or seller features
 
-📜 API Documentation
+API Documentation
+Once the server is running, access the API docs at:
+http://127.0.0.1:8000/api/docs/
 
-📌 Access the API documentation at http://127.0.0.1:8000/api/docs/ when the server is running.
-
-🐞 Troubleshooting
-
-🔹 Common Issues & Fixes
-
-Python not recognized? Ensure Python is added to your PATH.
-
-Package not found? Make sure your virtual environment is activated.
-
-Database errors? Delete db.sqlite3 and migration files (except __init__.py), then run migrations again.
-
-Permission issues? Run Command Prompt as Administrator.
-
-📜 License
-
+Troubleshooting
+Issue	Solution
+Python not recognized	Ensure Python is added to your PATH
+Package not found	Make sure your virtual environment is activated
+Database errors	Delete db.sqlite3 and migrations folder (except __init__.py) and run migrations again
+Permission issues	Run Command Prompt as Administrator
+License
 This project is open-source and available under the MIT License.
-
