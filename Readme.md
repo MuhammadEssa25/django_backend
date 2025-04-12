@@ -52,6 +52,7 @@ pip install -r requirements.txt
 
 If requirements.txt is not available, manually install the required packages:
 pip install django djangorestframework djangorestframework-simplejwt drf-spectacular pillow  
+pip install django-cors-headers
 ```
 
 ### 3. Database Setup
